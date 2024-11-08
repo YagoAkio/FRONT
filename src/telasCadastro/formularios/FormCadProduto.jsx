@@ -213,18 +213,19 @@ export default function FormCadProduto(props) {
                 <Row>
                     {/* Data de Validade */}
                     <Col md={6}>
-                        <Form.Group>
-                            <FloatingLabel label="Data de Validade:" className="mb-3">
-                                <InputMask
-                                    mask="99/99/9999"
-                                    maskChar="_"
-                                    id="dataValidade"
-                                    name="dataValidade"
-                                    onChange={manipularMudancas}
-                                    value={produto.dataValidade}
-                                    required />
-                            </FloatingLabel>
-                        </Form.Group>
+                        
+<Form.Group controlId="dataValidade" className="mb-3">
+  <Form.Label>Data de Validade:</Form.Label>
+  <InputMask
+    mask="99/99/9999"
+    maskChar="_"
+    name="dataValidade"
+    onChange={manipularMudancas}
+    value={produto.dataValidade}
+    required
+    className="form-control"
+  />
+</Form.Group>
                     </Col>
                 </Row>
                 {/* Botões */}
