@@ -95,6 +95,7 @@ export default function TabelaProdutos(props) {
                         <th>Url Imagem</th>
                         <th>Data Validade</th>
                         <th>Categoria</th>
+                        <th>Fornecedor CNPJ</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -119,6 +120,7 @@ export default function TabelaProdutos(props) {
                                     </td>
                                     <td>{formatarData(produto.dataValidade)}</td> {/* Exibição da data formatada */}
                                     <td>{produto.categoria.descricao}</td>
+                                    <td>{produto.fornecedor.cnpj}</td>
                                     <td>
                                         <Button variant="danger" onClick={() => {
                                             excluirProduto(produto);

@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import ESTADO from "../recursos/estado";
-const urlBase = 'https://lp-2-back.vercel.app/produto';
+//const urlBase = 'https://lp-2-back.vercel.app/produto';
+const urlBase = 'http://localhost:4000/produto';
 //Thunks
 export const buscarProdutos = createAsyncThunk('buscarProdutos', async () => {
     try {

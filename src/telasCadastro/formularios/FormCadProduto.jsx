@@ -3,6 +3,7 @@ import { Button, Container, Form, Row, Col, FloatingLabel, Spinner } from "react
 import { adicionarProduto, atualizarProduto } from '../../redux/produtoReducer';
 import { useSelector, useDispatch } from "react-redux";
 import { buscarCategorias } from "../../redux/categoriaReducer";
+import { buscarFornecedores } from "../../redux/fornecedorReducer";
 import ESTADO from "../../recursos/estado";
 import { toast } from "react-toastify";
 import InputMask from 'react-input-mask';
@@ -17,23 +18,37 @@ export default function FormCadProduto(props) {
         urlImagem: '',
         dataValidade: '',
         categoria: {
-            codigo: 0,
+            codigo: 0,  // Certifique-se de que isso está sendo tratado no backend como um valor válido ou inválido.
             descricao: ''
+        },
+        fornecedor: {
+            cnpj: '',  // O mesmo vale para fornecedor
+            nome: '',
+            email:'',
+            telefone:'',
+            endereco:'',
+            bairro:'',
+            cidade:'',
+            uf:'',
+            cep:''
         }
     };
+
     const estadoInicialProduto = props.produtoParaEdicao || produtoVazio;
     const [produto, setProduto] = useState(estadoInicialProduto);
     const [formValidado, setFormValidado] = useState(false);
 
-    const { estado: estadoCat, mensagem: mensagemCat, categorias } = useSelector((state) => state.categoria);
+    const { estado: estadoCat, categorias } = useSelector((state) => state.categoria);
+    const { estado: estadoForn, fornecedores } = useSelector((state) => state.fornecedor);
     const { estado, mensagem } = useSelector((state) => state.produto);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(buscarCategorias());
+        dispatch(buscarFornecedores());
     }, [dispatch]);
 
-    // Função para formatar a data no formato 'DD/MM/YYYY'
     function formatarData(dataISO) {
         if (!dataISO) return '';
         const data = new Date(dataISO);
@@ -43,13 +58,11 @@ export default function FormCadProduto(props) {
         return `${dia}/${mes}/${ano}`;
     }
 
-    // Função para manipular mudanças nos campos do formulário
     function manipularMudancas(e) {
         const componente = e.currentTarget;
         setProduto({ ...produto, [componente.name]: componente.value });
     }
 
-    // Função para selecionar a categoria
     function selecionaCategoria(e) {
         const componente = e.currentTarget;
         setProduto({
@@ -59,8 +72,18 @@ export default function FormCadProduto(props) {
             }
         });
     }
+    
+    function selecionaFornecedor(e) {
+        const componente = e.currentTarget;
+        setProduto({
+            ...produto, fornecedor: {
+                ...produto.fornecedor, // garante que as propriedades anteriores sejam mantidas
+                cnpj: componente.value,
+                nome: componente.options[componente.selectedIndex].text
+            }
+        });
+    }
 
-    // Função para manipular o envio do formulário
     function manipularSubmissao(e) {
         const form = e.currentTarget;
         if (form.checkValidity()) {
@@ -81,7 +104,6 @@ export default function FormCadProduto(props) {
         e.preventDefault();
     }
 
-    // Formatar a data de validade quando o componente é renderizado
     useEffect(() => {
         if (props.produtoParaEdicao && props.produtoParaEdicao.dataValidade) {
             setProduto({
@@ -93,155 +115,176 @@ export default function FormCadProduto(props) {
 
     return (
         <Container>
-            {/* Feedback and loading spinner */}
-            {estado === ESTADO.ERRO && toast.error(<p>{mensagem}</p>, { toastId: estado })}
-            {estado === ESTADO.PENDENTE && toast(<Spinner animation="border" role="status" />, { toastId: estado })}
-            {estado === ESTADO.OCIOSO && setTimeout(() => toast.dismiss(), 2000)}
+    {estado === ESTADO.ERRO && toast.error(<p>{mensagem}</p>, { toastId: estado })}
+    {estado === ESTADO.PENDENTE && (
+        <div className="text-center my-3">
+            <Spinner animation="border" role="status" />
+        </div>
+    )}
+    {estado === ESTADO.OCIOSO && setTimeout(() => toast.dismiss(), 2000)}
 
-            <Form noValidate validated={formValidado} onSubmit={manipularSubmissao}>
-                <Row>
-                    {/* Código */}
-                    <Col>
+    <Form noValidate validated={formValidado} onSubmit={manipularSubmissao}>
+        <Row className="mb-4">
+            <Col md={6}>
+                <Form.Group>
+                    <FloatingLabel label="Código:" className="mb-3">
+                        <Form.Control
+                            type="text"
+                            id="codigo"
+                            name="codigo"
+                            value={produto.codigo}
+                            onChange={manipularMudancas}
+                            disabled />
+                    </FloatingLabel>
+                </Form.Group>
+            </Col>
+            <Col md={6}>
+                <Form.Group>
+                    <FloatingLabel label="Descrição:" className="mb-3">
+                        <Form.Control
+                            type="text"
+                            id="descricao"
+                            name="descricao"
+                            placeholder="Digite a descrição do produto"
+                            value={produto.descricao}
+                            onChange={manipularMudancas}
+                            required />
+                    </FloatingLabel>
+                </Form.Group>
+            </Col>
+        </Row>
+
+        <Row className="mb-4">
+            <Col md={6}>
+                <FloatingLabel label="Preço de Custo:" className="mb-3">
+                    <Form.Control
+                        type="text"
+                        id="precoCusto"
+                        name="precoCusto"
+                        placeholder="Preço de custo"
+                        value={produto.precoCusto}
+                        onChange={manipularMudancas}
+                        required />
+                </FloatingLabel>
+            </Col>
+            <Col md={6}>
+                <FloatingLabel label="Preço de Venda:" className="mb-3">
+                    <Form.Control
+                        type="text"
+                        id="precoVenda"
+                        name="precoVenda"
+                        placeholder="Preço de venda"
+                        value={produto.precoVenda}
+                        onChange={manipularMudancas}
+                        required />
+                </FloatingLabel>
+            </Col>
+
+            <Col md={6}>
                         <Form.Group>
-                            <FloatingLabel label="Código:" className="mb-3">
-                                <Form.Control
-                                    type="text"
-                                    id="codigo"
-                                    name="codigo"
-                                    value={produto.codigo}
-                                    onChange={manipularMudancas}
-                                    disabled />
-                            </FloatingLabel>
-                        </Form.Group>
-                    </Col>
-                </Row>
-                <Row>
-                    {/* Descrição */}
-                    <Col>
-                        <Form.Group>
-                            <FloatingLabel label="Descrição:" className="mb-3">
-                                <Form.Control
-                                    type="text"
-                                    id="descricao"
-                                    name="descricao"
-                                    value={produto.descricao}
-                                    onChange={manipularMudancas}
-                                    required />
-                            </FloatingLabel>
-                        </Form.Group>
-                    </Col>
-                </Row>
-                <Row>
-                    {/* Preço de Custo e Preço de Venda */}
-                    <Col md={10}>
-                        <Form.Group>
-                            <FloatingLabel label="Preço de Custo:" className="mb-3">
-                                <Form.Control
-                                    type="text"
-                                    id="precoCusto"
-                                    name="precoCusto"
-                                    onChange={manipularMudancas}
-                                    value={produto.precoCusto}
-                                    required />
-                            </FloatingLabel>
-                        </Form.Group>
-                    </Col>
-                    <Col md={2}>
-                        <Form.Group>
-                            <FloatingLabel label="Preço de Venda:" className="mb-3">
-                                <Form.Control
-                                    type="text"
-                                    id="precoVenda"
-                                    name="precoVenda"
-                                    onChange={manipularMudancas}
-                                    value={produto.precoVenda}
-                                    required />
-                            </FloatingLabel>
-                        </Form.Group>
-                    </Col>
-                </Row>
-                <Row>
-                    {/* Quantidade em estoque */}
-                    <Col md={5}>
-                        <Form.Group>
-                            <FloatingLabel label="Quantidade em estoque:" className="mb-3">
+                            <FloatingLabel label="Quantidade em Estoque:" className="mb-3">
                                 <Form.Control
                                     type="number"
                                     id="qtdEstoque"
                                     name="qtdEstoque"
-                                    onChange={manipularMudancas}
+                                    placeholder="Quantidade de estoque"
                                     value={produto.qtdEstoque}
+                                    onChange={manipularMudancas}
                                     required />
                             </FloatingLabel>
                         </Form.Group>
                     </Col>
-                    {/* Categoria */}
-                    <Col md={3}>
-                        <FloatingLabel controlId="floatingSelect" label="Categoria:">
-                            <Form.Select
-                                id='categoria'
-                                name='categoria'
-                                onChange={selecionaCategoria}
-                                value={produto.categoria.codigo}
-                                required>
-                                <option value="0">Selecione uma categoria</option>
-                                {categorias?.map(categoria => (
-                                    <option key={categoria.codigo} value={categoria.codigo}>
-                                        {categoria.descricao}
-                                    </option>
-                                ))}
-                            </Form.Select>
-                        </FloatingLabel>
-                    </Col>
-                </Row>
-                <Row>
-                    {/* URL da Imagem */}
-                    <Col md={6}>
-                        <Form.Group>
-                            <FloatingLabel label="URL da Imagem:" className="mb-3">
-                                <Form.Control
-                                    type="text"
-                                    id="urlImagem"
-                                    name="urlImagem"
-                                    placeholder="URL da imagem do produto"
-                                    onChange={manipularMudancas}
-                                    value={produto.urlImagem} />
-                            </FloatingLabel>
-                        </Form.Group>
-                    </Col>
-                </Row>
-                <Row>
-                    {/* Data de Validade */}
-                    <Col md={6}>
-                        
-<Form.Group controlId="dataValidade" className="mb-3">
-  <Form.Label>Data de Validade:</Form.Label>
-  <InputMask
-    mask="99/99/9999"
-    maskChar="_"
-    name="dataValidade"
-    onChange={manipularMudancas}
-    value={produto.dataValidade}
-    required
-    className="form-control"
-  />
-</Form.Group>
-                    </Col>
-                </Row>
-                {/* Botões */}
-                <Row>
-                    <Col md={6} className="d-flex justify-content-end">
-                        <Button type="submit" variant="primary">
-                            {props.modoEdicao ? "Alterar" : "Cadastrar"}
-                        </Button>
-                    </Col>
-                    <Col md={6}>
-                        <Button type="button" variant="secondary" onClick={() => props.exibirFormulario(false)}>
-                            Voltar
-                        </Button>
-                    </Col>
-                </Row>
-            </Form>
-        </Container>
+
+        </Row>
+
+        
+
+        <Row className="mb-4">
+            <Col md={6}>
+                <FloatingLabel controlId="floatingSelect" label="Categoria:">
+                    <Form.Select
+                        id="categoria"
+                        name="categoria"
+                        onChange={selecionaCategoria}
+                        value={produto.categoria.codigo || ''}
+                        required>
+                        <option value="0">Selecione uma categoria</option>
+                        {categorias?.map((categoria) => (
+                            <option key={categoria.codigo} value={categoria.codigo}>
+                                {categoria.descricao}
+                            </option>
+                        ))}
+                    </Form.Select>
+                </FloatingLabel>
+            </Col>
+            <Col md={6}>
+                <FloatingLabel controlId="floatingSelect" label="Fornecedor:">
+                <Form.Select
+    id="fornecedor"
+    name="fornecedor"
+    onChange={selecionaFornecedor}
+    value={produto.fornecedor?.cnpj || ''} // Evita erro caso fornecedor seja undefined
+    required>
+    <option value="0">Selecione um fornecedor</option>
+    {fornecedores?.map((fornecedor) => (
+        <option key={fornecedor.cnpj} value={fornecedor.cnpj}>
+            {fornecedor.cnpj}
+        </option>
+    ))}
+</Form.Select>
+                </FloatingLabel>
+            </Col>
+        </Row>
+
+        <Row className="mb-4">
+            <Col md={6}>
+                <Form.Group>
+                    <FloatingLabel label="URL da Imagem:" className="mb-3">
+                        <Form.Control
+                            type="text"
+                            id="urlImagem"
+                            name="urlImagem"
+                            placeholder="URL da imagem do produto"
+                            value={produto.urlImagem}
+                            onChange={manipularMudancas} />
+                    </FloatingLabel>
+                </Form.Group>
+                {produto.urlImagem && (
+                    <div className="text-center my-2">
+                        <img src={produto.urlImagem} alt="Produto" style={{ maxWidth: "100%", maxHeight: "150px" }} />
+                    </div>
+                )}
+            </Col>
+            <Col md={6}>
+                <Form.Group controlId="dataValidade" className="mb-3">
+                    <Form.Label>Data de Validade:</Form.Label>
+                    <InputMask
+                        mask="99/99/9999"
+                        maskChar="_"
+                        name="dataValidade"
+                        onChange={manipularMudancas}
+                        value={produto.dataValidade}
+                        required
+                        className="form-control"
+                    />
+                </Form.Group>
+            </Col>
+        </Row>
+
+        <Row>
+            <Col md={5}>
+                <Button type="submit" variant="primary" className="w-100">
+                    {props.modoEdicao ? "Alterar" : "Cadastrar"}
+                </Button>
+            </Col>
+            <Col md={5}>
+                <Button type="button" variant="secondary" className="w-100" onClick={() => props.exibirFormulario(false)}>
+                    Voltar
+                </Button>
+            </Col>
+        </Row>
+    </Form>
+</Container>
+
     );
 }
