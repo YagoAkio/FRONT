@@ -17,6 +17,8 @@ export default function Menu(props) {
                             <NavDropdown.Item as={Link} to="/produtos">Produtos</NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item as={Link} to="/categorias">Categorias</NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item as={Link} to="/usuarios">Usuarios</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>

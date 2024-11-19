@@ -10,6 +10,7 @@ import TelaCadastroFornecedor from "./telasCadastro/TelaCadastroFornecedor";
 import TelaCadastroCliente from "./telasCadastro/TelaCadastroCliente";
 
 import 'react-toastify/dist/ReactToastify.css';
+import TelaCadastroUsuario from "./telasCadastro/TelaCadastroUsuario";
 
 function App() {
   return (
@@ -24,7 +25,8 @@ function App() {
             <Route path="/produtos" element={<TelaCadastroProduto />} />
             <Route path="/categorias" element={<TelaCadastroCategoria />} />
             <Route path="/fornecedores" element={<TelaCadastroFornecedor/>} />
-            <Route path="/clientes" element={<TelaCadastroCliente/>} />
+            <Route path="/clientes" element={<TelaCadastroCliente/>}/>
+            <Route path="/usuarios" element={<TelaCadastroUsuario/>}/>
             
             
             <Route path="/" element={<TelaMenu />} />

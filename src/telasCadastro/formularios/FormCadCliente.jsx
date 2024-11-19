@@ -87,7 +87,9 @@ export default function FormCadClientes(props) {
                                         name="cpf"
                                         value={cliente.cpf}
                                         onChange={manipularMudancas}
-                                        required />
+                                        required={!props.modoEdicao}  // CPF obrigatório somente no cadastro (não na edição)
+                                        disabled={props.modoEdicao}  // CPF desabilitado na edição
+    />
                                 </FloatingLabel>
                                 <Form.Control.Feedback type="invalid">Informe o CPF do cliente!</Form.Control.Feedback>
                             </Form.Group>

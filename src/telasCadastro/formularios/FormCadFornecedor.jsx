@@ -87,7 +87,9 @@ export default function FormCadFornecedores(props) {
                                         name="cnpj"
                                         value={fornecedor.cnpj}
                                         onChange={manipularMudancas}
-                                        required />
+                                        required={!props.modoEdicao}  // CNPJ obrigatório somente no cadastro (não na edição)
+                                        disabled={props.modoEdicao}  // CNPJ desabilitado na edição
+    />
                                 </FloatingLabel>
                                 <Form.Control.Feedback type="invalid">Informe o CNPJ do fornecedor!</Form.Control.Feedback>
                             </Form.Group>
