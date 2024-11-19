@@ -19,6 +19,12 @@ export default function FormCadClientes(props) {
         cep: ''
     }
 
+    const UFs = [
+        "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", 
+        "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", 
+        "RS", "RO", "RR", "SC", "SP", "SE", "TO"
+    ];
+
     const estadoInicialCliente = props.clienteParaEdicao ;
     const [cliente, setCliente] = useState(estadoInicialCliente);
     const [formValidado, setFormValidado] = useState(false);
@@ -216,25 +222,30 @@ export default function FormCadClientes(props) {
                         </Col>
                     </Row>
                     <Row>
-                        <Col>
-                            <Form.Group>
-                                <FloatingLabel
-                                    label="Estado (UF):"
-                                    className="mb-3"
-                                >
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Informe o estado (UF)"
-                                        id="uf"
-                                        name="uf"
-                                        value={cliente.uf}
-                                        onChange={manipularMudancas}
-                                        required />
-                                </FloatingLabel>
-                                <Form.Control.Feedback type="invalid">Informe o estado (UF) do cliente!</Form.Control.Feedback>
-                            </Form.Group>
-                        </Col>
-                    </Row>
+    <Col>
+        <Form.Group>
+            <FloatingLabel label="Estado (UF):" className="mb-3">
+                <Form.Select
+                    id="uf"
+                    name="uf"
+                    value={cliente.uf}
+                    onChange={manipularMudancas}
+                    required
+                >
+                    <option value="">Selecione o estado (UF)</option>
+                    {UFs.map((uf) => (
+                        <option key={uf} value={uf}>
+                            {uf}
+                        </option>
+                    ))}
+                </Form.Select>
+                <Form.Control.Feedback type="invalid">
+                    Informe o estado (UF) do cliente!
+                </Form.Control.Feedback>
+            </FloatingLabel>
+        </Form.Group>
+    </Col>
+</Row>
                     <Row>
                         <Col>
                             <Form.Group>

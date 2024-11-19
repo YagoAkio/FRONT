@@ -102,23 +102,28 @@ export default function FormCadUsuario(props) {
                 </Row>
 
                 <Row>
-                    <Form.Group as={Col} className="mb-4">
-                        <FloatingLabel controlId="prioridade" label="Prioridade" className="mb-2">
-                            <Form.Control
-                                type="text"
-                                id="prioridade"
-                                name="prioridade"
-                                placeholder="Digite a prioridade do usuário"
-                                value={usuario.prioridade}
-                                onChange={manipularMudancas}
-                                required
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                Por favor, informe a prioridade do usuário!
-                            </Form.Control.Feedback>
-                        </FloatingLabel>
-                    </Form.Group>
-                </Row>
+    <Col>
+        <Form.Group>
+            <FloatingLabel label="Prioridade:" className="mb-3">
+                <Form.Select
+                    id="prioridade"
+                    name="prioridade"
+                    value={usuario.prioridade || ""}
+                    onChange={manipularMudancas}
+                    required
+                >
+                    <option value="">Selecione a prioridade</option>
+                    <option value="1">1 - Básico</option>
+                    <option value="2">2 - Gerente</option>
+                    <option value="3">3 - Administrador</option>
+                </Form.Select>
+                <Form.Control.Feedback type="invalid">
+                    Informe a prioridade do usuário!
+                </Form.Control.Feedback>
+            </FloatingLabel>
+        </Form.Group>
+    </Col>
+</Row>
 
                 <Row className="mt-4">
                     <Col md={6}>
