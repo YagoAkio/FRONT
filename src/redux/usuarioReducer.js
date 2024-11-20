@@ -3,9 +3,9 @@ import ESTADO from "../recursos/estado";
 //const urlBase = 'https://lp-2-back.vercel.app/usuario';
 const urlBase = 'http://localhost:4000/usuario';
 //Thunks
-export const buscarUsuarios = createAsyncThunk('buscarUsuarios', async () => {
+export const buscarUsuarios = createAsyncThunk('buscarUsuarios', async (email) => {
     try {
-        const resposta = await fetch(urlBase, { method: "GET" });
+        const resposta = await fetch(urlBase+"/"+email, { method: "GET" });
         const dados = await resposta.json();
         if (dados.status) {
             return {

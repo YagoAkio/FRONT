@@ -1,17 +1,17 @@
 import Cabecalho from "./Cabecalho";
 import Menu from "./Menu";
+import { Container } from "react-bootstrap";
 
 export default function Pagina(props) {
     return (
         <>
-            <Cabecalho conteudo='Sistema de controle Gerencial'/>
-            <Menu />
-            <div>
+            <Container>
+                <Cabecalho titulo="Sistema de controle Gerencial" />
+                <Menu />
                 {
-                    // filhos da página
+                    props.children
                 }
-                {props.children} 
-            </div>
+            </Container>
         </>
         
     )

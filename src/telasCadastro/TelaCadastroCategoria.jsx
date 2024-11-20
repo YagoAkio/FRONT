@@ -1,4 +1,4 @@
-import { Container } from "react-bootstrap";
+import { Container,Alert } from "react-bootstrap";
 import Pagina from "../templates/Pagina";
 import FormCadCategoria from "./formularios/FormCadCategorias";
 import TabelaCategorias from "./tabelas/TabelaCategorias";
@@ -15,6 +15,9 @@ export default function TelaCadastroCategoria(props) {
     return (
         <Container>
             <Pagina>
+                <Alert className="mt-02 mb-02 success text-center" variant="success">
+                    <h2>Cadastro de Categoria</h2>
+                </Alert>
                 {
                     exibirFormulario ? <FormCadCategoria exibirFormulario={setExibirFormulario}
                         categoriaParaEdicao={categoriaParaEdicao}

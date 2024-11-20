@@ -93,7 +93,7 @@ export const atualizarCliente = createAsyncThunk('cliente/atualizar', async (cli
 });
 
 export const removerCliente = createAsyncThunk('cliente/remover', async (cliente) => {
-    const resposta = await fetch(urlBase, {
+    const resposta = await fetch(urlBase+"/"+cliente.cpf, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'

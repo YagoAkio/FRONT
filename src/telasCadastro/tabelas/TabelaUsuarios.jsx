@@ -1,4 +1,4 @@
-import { Button, Container, Spinner, Table } from "react-bootstrap";
+import { Button, Container, Table } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,7 @@ export default function TabelaUsuarios(props) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(buscarUsuarios());
+        dispatch(buscarUsuarios(""));
     }, [dispatch]);
 
     useEffect(() => {

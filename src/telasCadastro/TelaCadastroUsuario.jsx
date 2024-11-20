@@ -1,4 +1,4 @@
-import { Container } from "react-bootstrap";
+import { Container,Alert } from "react-bootstrap";
 import Pagina from "../templates/Pagina";
 import FormCadUsuario from "./formularios/FormCadUsuario";
 import TabelaUsuarios from "./tabelas/TabelaUsuarios";
@@ -17,6 +17,11 @@ export default function TelaCadastroUsuario(props) {
     return (
         <Container>
             <Pagina>
+                <Alert className="mt-02 mb-02 success text-center" variant="success">
+                    <h2>
+                        Cadastro de Usuário
+                    </h2>
+                </Alert>
                 {
                     //dinâmica em que o usuário irá alternar entre o formulário de cadastro
                     //e a visualização do registros já cadastrados.

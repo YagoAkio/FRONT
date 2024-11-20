@@ -1,4 +1,4 @@
-import { Container } from "react-bootstrap";
+import { Container,Alert } from "react-bootstrap";
 import Pagina from "../templates/Pagina";
 import FormCadFornecedor from "./formularios/FormCadFornecedor";
 import TabelaFornecedores from "./tabelas/TabelaFornecedores";
@@ -23,6 +23,9 @@ export default function TelaCadastroFornecedor(props) {
     return (
         <Container>
             <Pagina>
+                <Alert className="mt-02 mb-02 success text-center" variant="success">
+                    <h2>Cadastro de Fornecedor</h2>
+                </Alert>
                 {
                     //dinâmica em que o usuário irá alternar entre o formulário de cadastro
                     //e a visualização do registros já cadastrados.

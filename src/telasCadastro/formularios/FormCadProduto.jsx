@@ -228,7 +228,7 @@ export default function FormCadProduto(props) {
     <option value="0">Selecione um fornecedor</option>
     {fornecedores?.map((fornecedor) => (
         <option key={fornecedor.cnpj} value={fornecedor.cnpj}>
-            {fornecedor.cnpj}
+            {fornecedor.nome} - {fornecedor.cnpj}
         </option>
     ))}
 </Form.Select>
