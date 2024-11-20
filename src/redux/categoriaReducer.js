@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import ESTADO from '../recursos/estado';
-//const urlBase = 'https://lp-2-back.vercel.app/categoria';
-const urlBase = 'http://localhost:4000/categoria';
+const urlBase = 'https://back-delta-gray.vercel.app/categoria';
+//const urlBase = 'http://localhost:4000/categoria';
 //Thunks
 export const buscarCategorias = createAsyncThunk('categoria/buscarCategorias', async () => {
     try { 

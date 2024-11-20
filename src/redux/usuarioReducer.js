@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import ESTADO from "../recursos/estado";
-//const urlBase = 'https://lp-2-back.vercel.app/usuario';
-const urlBase = 'http://localhost:4000/usuario';
+const urlBase = 'https://back-delta-gray.vercel.app/usuario';
+//const urlBase = 'http://localhost:4000/usuario';
 //Thunks
 export const buscarUsuarios = createAsyncThunk('buscarUsuarios', async (email) => {
     try {

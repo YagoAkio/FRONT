@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import ESTADO from '../recursos/estado';
-//const urlBase = 'https://lp-2-back.vercel.app/cliente';
+const urlBase = 'https://back-delta-gray.vercel.app/cliente';
 //Thunks
-const urlBase = 'http://localhost:4000/cliente';
+//const urlBase = 'http://localhost:4000/cliente';
 export const buscarClientes = createAsyncThunk('cliente/buscarClientes', async () => {
     try { 
         const resposta = await fetch(urlBase, { method: 'GET' });
