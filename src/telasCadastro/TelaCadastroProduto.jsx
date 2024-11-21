@@ -24,7 +24,7 @@ export default function TelaCadastroProduto(props) {
             <Pagina>
                 <Alert className="mt-02 mb-02 success text-center" variant="success">
                     <h2>
-                        Cadastro de Produto
+                        Cadastro de Produto Teste de Commit!
                     </h2>
                 </Alert>
                 {
