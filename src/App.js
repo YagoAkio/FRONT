@@ -37,6 +37,7 @@ function App() {
                 <Route path="/clientes" element={<TelaCadastroCliente />} />
                 <Route path="/produtos" element={<TelaCadastroProduto />} />
                 <Route path="/" element={<TelaMenu />} />
+                <Route path="/FRONT" element={<TelaMenu />} />
                 <Route path="*" element={<Tela404 />} />
                 {
                   user.privilegio > 1 ? (
